@@ -18,7 +18,7 @@ var server = new WebpackDevServer(compiler, {
       console.log('Using middleware for ' + req.url);
       next();
     });
-    app.use(/\/.+\/[0-9a-z_]+/, express.static("public/index.html"));
+    app.use(/\/.+\/[\da-z]{8}_([\da-z]{4}_){3}[\da-z]{12}/, express.static("public/index.html"));
     app.use(express.static("public"));
 
   },
