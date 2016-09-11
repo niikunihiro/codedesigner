@@ -31,8 +31,8 @@ var vm = {
   },
   read: function (id) {
     var data = doc_model.read(id);
-    // vm.edit = m.prop(data.body);
-    return data.body;
+    vm.edit = m.prop(data.body);
+    // return data.body;
   },
   marked: function (data) {
     if (data === '') {
@@ -94,8 +94,7 @@ var Editor = {
     if (typeof id !== "undefined") {
       // idがある時はデータを読み込む
       this.id = id.replace(/_/g, '-');
-      this.body = vm.read(this.id);
-      // テキストエリアにフォーカス
+      vm.read(this.id);
 
       return false;
     }
@@ -109,7 +108,7 @@ var Editor = {
         m('.column',
             [
               m('p.control',
-                m('textarea.textarea[name="editor"]', {oninput: m.withAttr('value', vm.edit), config: function (element) {element.focus();}}, ctrl.body)
+                m('textarea.textarea[name="editor"]', {oninput: m.withAttr('value', vm.edit), config: function (element) {element.focus();}}, vm.edit())
               ),
               m('p.control',
                 [

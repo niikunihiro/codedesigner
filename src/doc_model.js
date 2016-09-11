@@ -7,6 +7,12 @@ var
   uuid = require('node-uuid')
 ;
 
+/*
+初期表示時は、bodyを空でモデルを作成
+編集時は、taffyからデータを読み込んでモデルを作成
+入力時はビュー・モデルのプロパティに一時保存
+保存時はモデルをtaffyとlocalStorageに保存する
+ */
 
 var Doc = function (data, isInitial) {
   console.log('Doc constructor');
@@ -24,7 +30,7 @@ Doc.read = function (id) {
 
 Doc.save = function (text) {
   var
-    now = now = moment().format('YYYY-MM-DD HH:mm:ss'),
+    now = moment().format('YYYY-MM-DD HH:mm:ss'),
     data = {
       id : uuid.v1(),
       title : text.split(/\r\n|\r|\n/)[0].replace('# ', ''),
@@ -38,7 +44,7 @@ Doc.save = function (text) {
   taffyDB.insert(data);
   json = taffyDB().stringify();
   localStorage.setItem('docs', json);
-  // TODO saveに成功したら一覧部分を更新したい。
+  // TODO saveに成功したら一覧部分を更新する
 
 };
 

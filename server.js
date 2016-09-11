@@ -1,44 +1,33 @@
 "use strict";
 
-var fs = require("fs");
-var express = require("express");
-var bodyParser = require("body-parser");
+var
+  express = require('express'),
+  Webpack = require('webpack'),
+  WebpackDevServer = require('webpack-dev-server'),
+  WebpackConfig = require('./webpack.config')
+  ;
 
-var app = express();
+var compiler = Webpack(WebpackConfig);
+var server = new WebpackDevServer(compiler, {
+  contentBase: "/public",
+  stats: {colors: true},
+  hot: true,
+  historyApiFallback: true,
+  setup: function(app) {
+    app.use(function (req, res, next) {
+      console.log('Using middleware for ' + req.url);
+      next();
+    });
+    app.use(/\/.+\/[0-9a-z_]+/, express.static("public/index.html"));
+    app.use(express.static("public"));
 
-app.use(/\/.+\/[0-9a-z_]+/, express.static("public/index.html"));
-app.use(express.static("public"));
-app.use(bodyParser.json());
-
-// AJAXアクセスのリスト取得用のAPI
-app.get("/api/index", function (req, res) {
-  console.log("get /api/index");
-  var source = [];
-  try {
-    var sources = JSON.parse(fs.readFileSync("data.json", "utf8"));
-    if (sources.hasOwnProperty('data')) {
-      source = sources.data;
-    }
-  } catch(e) {
-    // pass
-  }
-  console.log(source);
-  res.send(source);
+  },
+  publicPath: '/assets/js/'
 });
 
-// AJAXアクセスのページ保存用のAPI
-app.post("/api/:pagename", function (req, res) {
-  console.log("post /api/" + req.params.pagename);
-  var source;
-  try {
-    source = JSON.parse(fs.readFileSync("wiki.json", "utf8"));
-  } catch(e) {
-    source = {};
+server.listen(8080, 'localhost', function (err, result) {
+  if (err) {
+    console.log(err);
   }
-  source[req.params.pagename] = req.body.source;
-  fs.writeFileSync("wiki.json", JSON.stringify(source));
-  res.status(200).end();
+  console.log('Starting server on http://localhost:8080');
 });
-
-console.log("start listening at 8000");
-app.listen(8000);
