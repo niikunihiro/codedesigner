@@ -11,9 +11,9 @@ var
 ;
 
 /**
- * TODO 1. データの読み込みと表示
- * TODO 2. モジュール化
- * TODO 3. 更新処理
+ * 1. データの読み込みと表示
+ * 2. モジュール化
+ * 3. 更新処理
  * TODO 4. 登録・更新後の一覧の再読み込み
  * TODO 5. 全体的な調整（mithrilに合わせてちゃんと作る）
  * TODO 6. Githubに登録
@@ -22,17 +22,23 @@ var
 
 // ビューモデル
 var vm = {
+  id: m.prop(''),
   edit: null,
   init: function() {
-    // vm.list = Title.list();
-    vm.list = title_model.readStorage();
+    vm.list = doc_model.readStorage();
     // 編集中のデータを入れるプロパティ
     vm.edit = m.prop('');
   },
   read: function (id) {
-    var data = doc_model.read(id);
-    vm.edit = m.prop(data.body);
-    // return data.body;
+    var docs = vm.list().filter(function(doc){
+      return doc.id() === id;
+    });
+    if (docs.length < 1) {
+      return m.route('/');
+    }
+    var doc = docs[0];
+    vm.id = m.prop(doc.id());
+    vm.edit = m.prop(doc.body());
   },
   marked: function (data) {
     if (data === '') {
@@ -41,18 +47,32 @@ var vm = {
     return marked(data);
   },
   save: function () {
+    var
+      id = vm.id(),
+      body = vm.edit()
+    ;
+
+
     /*
-     * エラー判定
-     * 新規登録
-     * 更新
+     * TODO エラー判定ちゃんと作る
      */
-    if (vm.edit() === '') {
-      alert('からじゃ');
+    if (body.length < 10) {
+      alert('もっと入力してからのsaveじゃないとNG!!');
+      return false;
+    }
+    if (id.length < 1) {
+      // vm.id()が空の場合はINSERT
+      return doc_model.save(vm.edit());
+    }
+    // 更新判定（データの読み込みにtaffyDB使うかも）
+    var docs = vm.list().filter(function (doc) {
+      return doc.id() === id;
+    });
+    if (docs.length === 0) {
+      alert('更新できませんでした。');
       return;
     }
-    console.log('53');
-    console.log(vm.edit());
-    doc_model.save(vm.edit());
+    return doc_model.update(vm.edit(), docs[0]);
   }
 }
 
@@ -99,8 +119,6 @@ var Editor = {
       return false;
     }
 
-    // フォーム部分を空で表示
-    // this.body = doc_model.body;
   },
   view: function (ctrl) {
     return m('.columns',

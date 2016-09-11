@@ -15,12 +15,30 @@ var
  */
 
 var Doc = function (data, isInitial) {
-  console.log('Doc constructor');
-  console.log(data);
+  // console.log('Doc constructor');
+  // console.log(data);
+  this.link = m.prop("/" + encodeURIComponent(data.title) + '/' + encodeURIComponent(data.id.replace(/-/g, '_')))
   this.id = m.prop(data.id);
+  this.title = m.prop(data.title);
   this.body = m.prop(data.body);
   this.created = m.prop(data.created);
   this.updated = m.prop(data.updated);
+}
+
+Doc.readStorage = function () {
+  var
+    list = [],
+    src = localStorage.getItem('docs'),
+    json = []
+    ;
+  if (src) {
+    json = JSON.parse(src);
+    taffyDB.insert(json);
+    taffyDB().each(function (record) {
+      list.push(new Doc(record));
+    });
+  }
+  return m.prop(list);
 }
 
 Doc.read = function (id) {
@@ -48,6 +66,19 @@ Doc.save = function (text) {
 
 };
 
-Doc.update = function () {};
+Doc.update = function (text, doc) {
+  var
+    now = moment().format('YYYY-MM-DD HH:mm:ss'),
+    json
+    ;
+  doc.title(text.split(/\r\n|\r|\n/)[0].replace('# ', ''));
+  doc.body(text);
+  doc.updated(now)
+
+  taffyDB({id: doc.id()}).update(doc);
+  json = taffyDB().stringify();
+  localStorage.setItem('docs', json);
+
+};
 
 module.exports = Doc;
