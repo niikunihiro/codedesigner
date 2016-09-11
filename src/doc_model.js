@@ -78,6 +78,7 @@ Doc.update = function (text, doc) {
   taffyDB({id: doc.id()}).update(doc);
   json = taffyDB().stringify();
   localStorage.setItem('docs', json);
+  // TODO sav updateに成功したら一覧部分を更新する
 
 };
 

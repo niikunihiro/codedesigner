@@ -5,9 +5,7 @@ var
   marked = require('marked'),
   moment = require('moment'),
   uuid = require('node-uuid'),
-  title_model = require('./title_model'),
-  doc_model = require('./doc_model'),
-  taffyDB = require('./taffy_db')
+  doc_model = require('./doc_model')
 ;
 
 /**
@@ -15,9 +13,8 @@ var
  * 2. モジュール化
  * 3. 更新処理
  * TODO 4. 登録・更新後の一覧の再読み込み
- * TODO 5. 全体的な調整（mithrilに合わせてちゃんと作る）
- * TODO 6. Githubに登録
- * TODO 7. herokuにあげる
+ * TODO 5. 全体的な調整（入力チェック、後はmithrilに合わせる）
+ * TODO 6. herokuにあげる
  */
 
 // ビューモデル
@@ -85,14 +82,15 @@ var SideMenu = {
   view: function (ctrl) {
     return m('aside.menu',
       [
-        m('.menu-label',
-          m('p.control.has-icon.is-centered',
-            [
-              m('input.input.is-small[placeholder="Search"][type="text"]'),
-              m('i.fa.fa-search')
-            ]
-          )
-        ),
+        // 検索フォーム
+        // m('.menu-label',
+        //   m('p.control.has-icon.is-centered',
+        //     [
+        //       m('input.input.is-small[placeholder="Search"][type="text"]'),
+        //       m('i.fa.fa-search')
+        //     ]
+        //   )
+        // ),
         m('ul.menu-list', vm.list().map(function (item) {
             return m('li', m('a', {href: item.link(), config: m.route}, item.title()))
           })
