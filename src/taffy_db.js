@@ -1,5 +1,5 @@
 var
-  TAFFY = require('taffy'),
+  TAFFY = require('node-taffydb').TAFFY,
   taffyDB = null
 ;
 
