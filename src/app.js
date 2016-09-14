@@ -11,9 +11,9 @@ var
 /**
  * 1. データの読み込みと表示
  * 2. モジュール化
- * TODO 4. 登録・更新後の一覧の再読み込み
  * 3.1. 更新処理
  * 3.2. 削除処理
+ * 4. 登録・更新・削除後の一覧の再読み込み
  * TODO 5. 全体的な調整（入力チェック、後はmithrilに合わせる）
  * TODO 6. herokuにあげる
  */
@@ -59,7 +59,12 @@ var vm = {
     }
     if (id.length < 1) {
       // vm.id()が空の場合はINSERT
-      return doc_model.save(vm.edit());
+      doc_model.save(vm.edit());
+      vm.edit = m.prop('');
+      vm.list = doc_model.read();
+      m.route('/');
+      return;
+      // TODO 新規登録でSave連打するとデータが増えるの対応
     }
     // 更新判定（データの読み込みにtaffyDB使うかも）
     var docs = vm.list().filter(function (doc) {
@@ -69,7 +74,9 @@ var vm = {
       alert('更新できませんでした。');
       return;
     }
-    return doc_model.update(vm.edit(), docs[0]);
+    doc_model.update(vm.edit(), docs[0]);
+    vm.list = doc_model.read();
+    return;
   },
   delete : function () {
     var id = vm.id();
@@ -83,7 +90,11 @@ var vm = {
     }
 
     // 削除処理
-    return doc_model.delete(id);
+    doc_model.delete(id);
+    vm.edit = m.prop('');
+    vm.list = doc_model.read();
+    m.route('/');
+    return;
   }
 }
 
@@ -146,7 +157,7 @@ var Editor = {
               ),
               m('p.control',
                 [
-                  m('input.button.is-primary[type="submit"][value="Save"]', {onclick: ctrl.save}),
+                  m('input', {type: 'submit', value: 'Save', onclick: ctrl.save, class: 'button is-primary'}),
                   m.trust('&nbsp;'),
                   // m('input.button.is-success[type="submit"][value="Sync"]')
                   // TODO 新規登録時は隠す

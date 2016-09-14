@@ -41,7 +41,15 @@ Doc.readStorage = function () {
   return m.prop(list);
 }
 
-Doc.read = function (id) {
+Doc.read = function () {
+  var list = [];
+  taffyDB().each(function (record) {
+    list.push(new Doc(record));
+  });
+  return m.prop(list);
+}
+
+Doc.find = function (id) {
   var data = taffyDB({id : {is : id}}).first();
   return data;
 }
