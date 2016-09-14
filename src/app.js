@@ -11,8 +11,9 @@ var
 /**
  * 1. データの読み込みと表示
  * 2. モジュール化
- * 3. 更新処理
  * TODO 4. 登録・更新後の一覧の再読み込み
+ * 3.1. 更新処理
+ * 3.2. 削除処理
  * TODO 5. 全体的な調整（入力チェック、後はmithrilに合わせる）
  * TODO 6. herokuにあげる
  */
@@ -49,7 +50,6 @@ var vm = {
       body = vm.edit()
     ;
 
-
     /*
      * TODO エラー判定ちゃんと作る
      */
@@ -70,6 +70,20 @@ var vm = {
       return;
     }
     return doc_model.update(vm.edit(), docs[0]);
+  },
+  delete : function () {
+    var id = vm.id();
+    // 存在確認
+    var docs = vm.list().filter(function (doc) {
+      return doc.id() === id;
+    });
+    if (docs.length === 0) {
+      alert('削除できませんでした。');
+      return;
+    }
+
+    // 削除処理
+    return doc_model.delete(id);
   }
 }
 
@@ -105,8 +119,13 @@ var Editor = {
   controller: function () {
     var self = this;
     var id = m.route.param('id');
+
     this.save = function () {
       vm.save();
+    }
+
+    this.delete = function () {
+      vm.delete();
     }
 
     if (typeof id !== "undefined") {
@@ -116,7 +135,6 @@ var Editor = {
 
       return false;
     }
-
   },
   view: function (ctrl) {
     return m('.columns',
@@ -131,6 +149,8 @@ var Editor = {
                   m('input.button.is-primary[type="submit"][value="Save"]', {onclick: ctrl.save}),
                   m.trust('&nbsp;'),
                   // m('input.button.is-success[type="submit"][value="Sync"]')
+                  // TODO 新規登録時は隠す
+                  m('input', {type: 'submit', value: 'Delete', onclick: ctrl.delete, class: 'button is-danger'})
                 ]
               )
             ]

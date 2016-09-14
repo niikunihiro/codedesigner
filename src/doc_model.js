@@ -62,8 +62,6 @@ Doc.save = function (text) {
   taffyDB.insert(data);
   json = taffyDB().stringify();
   localStorage.setItem('docs', json);
-  // TODO saveに成功したら一覧部分を更新する
-
 };
 
 Doc.update = function (text, doc) {
@@ -78,8 +76,13 @@ Doc.update = function (text, doc) {
   taffyDB({id: doc.id()}).update(doc);
   json = taffyDB().stringify();
   localStorage.setItem('docs', json);
-  // TODO sav updateに成功したら一覧部分を更新する
+};
 
+Doc.delete = function (id) {
+  var json;
+  taffyDB({id: id}).remove();
+  json = taffyDB().stringify();
+  localStorage.setItem('docs', json);
 };
 
 module.exports = Doc;
