@@ -49,6 +49,14 @@ Doc.read = function () {
   return m.prop(list);
 }
 
+Doc.search = function (keyword) {
+  var list = [];
+  taffyDB({body: {likenocase: keyword}}).each(function (record) {
+    list.push(new Doc(record));
+  });
+  return m.prop(list);
+}
+
 Doc.find = function (id) {
   var data = taffyDB({id : {is : id}}).first();
   return data;

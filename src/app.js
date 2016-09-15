@@ -27,6 +27,9 @@ var vm = {
     // 編集中のデータを入れるプロパティ
     vm.edit = m.prop('');
   },
+  initList: function () {
+    vm.list = doc_model.read();
+  },
   read: function (id) {
     var docs = vm.list().filter(function(doc){
       return doc.id() === id;
@@ -37,6 +40,9 @@ var vm = {
     var doc = docs[0];
     vm.id = m.prop(doc.id());
     vm.edit = m.prop(doc.body());
+  },
+  search: function (value) {
+    vm.list = doc_model.search(value);
   },
   marked: function (data) {
     if (data === '') {
@@ -103,19 +109,22 @@ var vm = {
 var SideMenu = {
   controller: function(){
     vm.init();
+    this.search = function(value){
+      vm.search(value);
+    }
   },
   view: function (ctrl) {
     return m('aside.menu',
       [
         // 検索フォーム
-        // m('.menu-label',
-        //   m('p.control.has-icon.is-centered',
-        //     [
-        //       m('input.input.is-small[placeholder="Search"][type="text"]'),
-        //       m('i.fa.fa-search')
-        //     ]
-        //   )
-        // ),
+        m('.menu-label',
+          m('p.control.has-icon.is-centered',
+            [
+              m('input', {type: 'text', class: 'input is-small', placeholder: 'Search', oninput: m.withAttr('value', ctrl.search)}),
+              m('i', {class: 'fa fa-search'})
+            ]
+          )
+        ),
         m('ul.menu-list', vm.list().map(function (item) {
             return m('li', m('a', {href: item.link(), config: m.route}, item.title()))
           })
@@ -143,6 +152,8 @@ var Editor = {
       // idがある時はデータを読み込む
       this.id = id.replace(/_/g, '-');
       vm.read(this.id);
+      // リストの初期化
+      vm.initList();
 
       return false;
     }
@@ -153,7 +164,7 @@ var Editor = {
         m('.column',
             [
               m('p.control',
-                m('textarea.textarea[name="editor"]', {oninput: m.withAttr('value', vm.edit), config: function (element) {element.focus();}}, vm.edit())
+                m('textarea.textarea[name="editor"]', {oninput: m.withAttr('value', vm.edit)/*, config: function (element) {element.focus();}*/}, vm.edit())
               ),
               m('p.control',
                 [
