@@ -53,7 +53,8 @@ var vm = {
   save: function () {
     var
       id = vm.id(),
-      body = vm.edit()
+      body = vm.edit(),
+      doc
     ;
 
     /*
@@ -65,12 +66,11 @@ var vm = {
     }
     if (id.length < 1) {
       // vm.id()が空の場合はINSERT
-      doc_model.save(vm.edit());
-      vm.edit = m.prop('');
+      doc = doc_model.save(vm.edit());
       vm.list = doc_model.read();
-      m.route('/');
+      // 新規登録完了時は編集画面にリダイレクト
+      m.route(doc.link());
       return;
-      // TODO 新規登録でSave連打するとデータが増えるの対応
     }
     // 更新判定（データの読み込みにtaffyDB使うかも）
     var docs = vm.list().filter(function (doc) {

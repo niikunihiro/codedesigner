@@ -78,6 +78,7 @@ Doc.save = function (text) {
   taffyDB.insert(data);
   json = taffyDB().stringify();
   localStorage.setItem('docs', json);
+  return new Doc(data);
 };
 
 Doc.update = function (text, doc) {
