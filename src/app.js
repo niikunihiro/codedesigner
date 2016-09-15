@@ -2,7 +2,7 @@
 
 var
   m = require("mithril"),
-  marked = require('marked'),
+  marked = require('./marked'),
   moment = require('moment'),
   uuid = require('node-uuid'),
   doc_model = require('./doc_model')
@@ -48,7 +48,7 @@ var vm = {
     if (data === '') {
       return '';
     }
-    return marked(data);
+    return marked.render(data);
   },
   save: function () {
     var
