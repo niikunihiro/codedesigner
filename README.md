@@ -1,16 +1,34 @@
-# codedesign
+CodeDesign
+====
 
 Code Designing Editor
 
-## とりあえず動かす方法
+## Demo
 
-次のコマンドを実行する
+![demo image](https://raw.githubusercontent.com/niikunihiro/codedesign/6e5f18b908184e196409771c0a36bc797afd4c63/CodeDesign.gif)
+
+## Requirement
+
+- Node.js
+
+## Install
 
 ```
-> npm update
+> git clone git@github.com:niikunihiro/codedesign.git
+> cd codedesign
+> npm install
+```
+
+#### Run
+
+```
 > npm start
 ```
 
 ブラウザでアクセスする
 
 [http://localhost:8080](http://localhost:8080)
+
+## Author
+
+[niikunihiro](https://github.com/niikunihiro)
