@@ -1,4 +1,8 @@
 var marked = require('marked');
+marked.setOptions({
+  sanitize: true
+});
+
 var renderer = new marked.Renderer();
 
 renderer.table = function(header, body) {
