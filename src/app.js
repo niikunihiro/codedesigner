@@ -108,10 +108,10 @@ var vm = {
 // タイトル一覧
 var SideMenu = {
   controller: function(){
-    vm.init();
     this.search = function(value){
       vm.search(value);
     }
+    vm.init();
   },
   view: function (ctrl) {
     return m('aside.menu',
@@ -137,7 +137,6 @@ var SideMenu = {
 // エディター部分
 var Editor = {
   controller: function () {
-    var self = this;
     var id = m.route.param('id');
 
     this.save = function () {

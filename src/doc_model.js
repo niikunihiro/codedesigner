@@ -84,13 +84,18 @@ Doc.save = function (text) {
 Doc.update = function (text, doc) {
   var
     now = moment().format('YYYY-MM-DD HH:mm:ss'),
+    data,
     json
-    ;
-  doc.title(text.split(/\r\n|\r|\n/)[0].replace('# ', ''));
-  doc.body(text);
-  doc.updated(now)
+  ;
+  data = {
+    id : doc.id(),
+    title : doc.title(text.split(/\r\n|\r|\n/)[0].replace('# ', '')),
+    body :   doc.body(text),
+    created : doc.created(),
+    updated : now
+  };
 
-  taffyDB({id: doc.id()}).update(doc);
+  taffyDB({id: doc.id()}).update(data);
   json = taffyDB().stringify();
   localStorage.setItem('docs', json);
 };
