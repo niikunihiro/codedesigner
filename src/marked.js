@@ -17,8 +17,8 @@ renderer.table = function(header, body) {
 };
 
 renderer.listitem = function(text) {
-  var re_checkbox = /^\[([ x])\] +/;
-  if (!re_checkbox.test(text)) {
+  var reg = /^\[[ x]\] +/;
+  if (!reg.test(text)) {
     // checkboxのマークアップがない場合はそのまま返す
     return '<li>' + text + '</li>\n';
   }
@@ -26,7 +26,7 @@ renderer.listitem = function(text) {
   var checked = /^\[x\] +/.test(text);
   var checkbox = '<input type="checkbox"' + (checked ? ' checked="checked"' : '') + '>&nbsp;';
   // マークアップをcheckboxに置換する
-  text = text.replace(re_checkbox, checkbox);
+  text = text.replace(reg, checkbox);
   return '<li><label>' + text + '</label></li>\n';
 };
 
