@@ -139,6 +139,8 @@ var Editor = {
   controller: function () {
     var id = m.route.param('id');
 
+    this.is_new = (typeof id === "undefined");
+
     this.save = function () {
       vm.save();
     }
@@ -185,8 +187,15 @@ var Editor = {
                   m('input', {type: 'submit', value: 'Save', onclick: ctrl.save, class: 'button is-primary'}),
                   m.trust('&nbsp;'),
                   // m('input.button.is-success[type="submit"][value="Sync"]')
-                  // TODO 新規登録時は隠す
-                  m('input', {type: 'submit', value: 'Delete', onclick: ctrl.delete, class: 'button is-danger'})
+                  m(
+                    'input',
+                    {
+                      type: 'submit',
+                      value: 'Delete',
+                      onclick: ctrl.delete,
+                      class: ctrl.is_new ? 'button is-danger is-disabled':'button is-danger'
+                    }
+                  )
                 ]
               )
             ]
