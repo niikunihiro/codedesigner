@@ -148,7 +148,7 @@ var Editor = {
     }
 
     this.key_save = function (e) {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+      if ((e.ctrlKey || e.metaKey) && e.keyCode === 83) {
         vm.save();
         return false;
       }
