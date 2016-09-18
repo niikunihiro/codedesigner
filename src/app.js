@@ -148,6 +148,13 @@ var Editor = {
       vm.delete();
     }
 
+    this.key_save = function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+        vm.save();
+        return false;
+      }
+    }
+
     if (typeof id !== "undefined") {
       // idがある時はデータを読み込む
       this.id = id.replace(/_/g, '-');
@@ -164,7 +171,15 @@ var Editor = {
         m('.column',
             [
               m('p.control',
-                m('textarea.textarea[name="editor"]', {oninput: m.withAttr('value', vm.edit)/*, config: function (element) {element.focus();}*/}, vm.edit())
+                m(
+                  'textarea.textarea[name="editor"]',
+                  {
+                    oninput: m.withAttr('value', vm.edit),
+                    /*config: function (element) {element.focus();},*/
+                    onkeydown: ctrl.key_save
+                  },
+                  vm.edit()
+                )
               ),
               m('p.control',
                 [
