@@ -81,6 +81,11 @@ Doc.save = function (text) {
   return new Doc(data);
 };
 
+/**
+ * update item
+ * @param text
+ * @param doc
+ */
 Doc.update = function (text, doc) {
   var
     now = moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -100,6 +105,10 @@ Doc.update = function (text, doc) {
   localStorage.setItem('docs', json);
 };
 
+/**
+ * delete item from taffy and localStorage by id
+ * @param id
+ */
 Doc.delete = function (id) {
   var json;
   taffyDB({id: id}).remove();
