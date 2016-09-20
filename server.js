@@ -1,33 +1,13 @@
 "use strict";
 
-var
-  express = require('express'),
-  Webpack = require('webpack'),
-  WebpackDevServer = require('webpack-dev-server'),
-  WebpackConfig = require('./webpack.config')
-  ;
+var express = require("express");
 
-var compiler = Webpack(WebpackConfig);
-var server = new WebpackDevServer(compiler, {
-  contentBase: "/public",
-  stats: {colors: true},
-  hot: true,
-  historyApiFallback: true,
-  setup: function(app) {
-    app.use(function (req, res, next) {
-      console.log('Using middleware for ' + req.url);
-      next();
-    });
-    app.use(/\/.+\/[\da-z]{8}_([\da-z]{4}_){3}[\da-z]{12}/, express.static("public/index.html"));
-    app.use(express.static("public"));
+var app = express();
 
-  },
-  publicPath: '/assets/bundle/'
-});
+app.set('port', (process.env.PORT || 8080));
+app.use(/\/.+\/[\da-z]{8}_([\da-z]{4}_){3}[\da-z]{12}/, express.static("public/index.html"));
+app.use(express.static("public"));
 
-server.listen(8080, 'localhost', function (err, result) {
-  if (err) {
-    console.log(err);
-  }
-  console.log('Starting server on http://localhost:8080');
+app.listen(app.get('port'), function () {
+  console.log("start listening at " + app.get('port'));
 });
