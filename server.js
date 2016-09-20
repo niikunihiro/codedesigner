@@ -22,7 +22,7 @@ var server = new WebpackDevServer(compiler, {
     app.use(express.static("public"));
 
   },
-  publicPath: '/assets/js/'
+  publicPath: '/assets/bundle/'
 });
 
 server.listen(8080, 'localhost', function (err, result) {
