@@ -1,4 +1,4 @@
-CodeDesign
+CodeDesigner
 ====
 
 Code Designing Editor
@@ -28,7 +28,3 @@ Code Designing Editor
 ブラウザでアクセスする
 
 [http://localhost:8080](http://localhost:8080)
-
-## Author
-
-[niikunihiro](https://github.com/niikunihiro)
