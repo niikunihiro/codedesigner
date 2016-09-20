@@ -65,17 +65,20 @@ module.exports = {
             ),
             m('p.control',
               [
-                m('input', {type: 'submit', value: 'Save', onclick: ctrl.save, class: 'button is-primary'}),
+                m('a', {onclick: ctrl.save, class: 'button is-primary'}, [
+                    m('span', {class: 'icon'}, m('i', {class: 'fa fa-hdd-o', 'area-hidden': true})),
+                    m('span', 'Save')
+                ]),
                 m.trust('&nbsp;'),
                 // m('input.button.is-success[type="submit"][value="Sync"]')
-                m(
-                  'input',
-                  {
-                    type: 'submit',
-                    value: 'Delete',
-                    onclick: ctrl.delete,
-                    class: ctrl.is_new ? 'button is-danger is-disabled':'button is-danger'
-                  }
+                m('a', {
+                  onclick: ctrl.delete,
+                  class: ctrl.is_new ? 'button is-danger is-disabled':'button is-danger'
+                  },
+                  [
+                    m('span', {class: 'icon'}, m('i', {class: 'fa fa-trash-o', 'area-hidden': true})),
+                    m('span', 'Delete')
+                  ]
                 )
               ]
             )
