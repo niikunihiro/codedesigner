@@ -6015,5 +6015,18 @@ a.panel-block:hover {
   overflow: visible;
   clip: auto;
 }
+textarea.textarea {
+    height: 85vh;
+    max-height: 100% !important;
+}
+
+#links, #viewer {
+    height: 85vh;
+    overflow-y: scroll;
+}
+
+section.section {
+    padding: 10px;
+}
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzdHlsZS5jc3MiLCJzb3VyY2VSb290IjoiIn0=*/
