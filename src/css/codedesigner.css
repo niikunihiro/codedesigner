@@ -1,0 +1,13 @@
+textarea.textarea {
+    height: 85vh;
+    max-height: 100% !important;
+}
+
+#links, #viewer {
+    height: 85vh;
+    overflow-y: scroll;
+}
+
+section.section {
+    padding: 10px;
+}
