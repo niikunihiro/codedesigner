@@ -17,6 +17,10 @@ var vm = {
   initList: function () {
     vm.list = doc_model.read();
   },
+  new: function () {
+    vm.id = m.prop('');
+    vm.edit = m.prop('');
+  },
   read: function (id) {
     var docs = vm.list().filter(function(doc){
       return doc.id() === id;
@@ -39,10 +43,8 @@ var vm = {
     return marked.render(data);
   },
   insert: function () {
-    var
-      body = vm.edit(),
-      doc
-      ;
+    var body = vm.edit();
+    var doc;
 
     // 入力チェック
     if (!vm.validate(body)) {
@@ -96,8 +98,7 @@ var vm = {
     // 削除処理
     doc_model.delete(id);
     // プロパティの初期化
-    vm.id = m.prop('');
-    vm.edit = m.prop('');
+    vm.new();
     // リストの再読み込み
     vm.list = doc_model.read();
     return;
