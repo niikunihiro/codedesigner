@@ -85,7 +85,7 @@ module.exports = {
           ]
         ),
         m('.column',
-          m('#viewer.content', [m.trust(vm.marked(vm.edit()))])
+          m('#viewer.content', [m.trust(vm.marked())])
         )
       ]
     );

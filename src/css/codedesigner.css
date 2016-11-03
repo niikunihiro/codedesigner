@@ -8,6 +8,7 @@ textarea.textarea {
     overflow-y: scroll;
 }
 
-section.section {
+section.main-contents {
+    background-color: #fff;
     padding: 10px;
 }

@@ -40,5 +40,8 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin('[name].css')
   ],
+  node: {
+    fs: "empty",
+  },
   devtool: 'inline-source-map'
 }

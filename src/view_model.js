@@ -9,6 +9,8 @@ var vm = {
   id: m.prop(''),
   edit: null,
   error_msg : [],
+  previous_edit: '',
+  rendered: '',
   init: function() {
     vm.list = doc_model.readStorage();
     // 編集中のデータを入れるプロパティ
@@ -36,11 +38,19 @@ var vm = {
   search: function (value) {
     vm.list = doc_model.search(value);
   },
-  marked: function (data) {
-    if (data === '') {
+  marked: function () {
+    var text = vm.edit();
+    if (text === '') {
       return '';
     }
-    return marked.render(data);
+
+    if (vm.previous_edit === text) {
+      return vm.rendered;
+    }
+
+    vm.rendered = marked.render(text);
+    vm.previous_edit = text;
+    return vm.rendered;
   },
   insert: function () {
     var body = vm.edit();
