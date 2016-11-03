@@ -18,8 +18,8 @@ var SideMenu = {
         m('.menu-label',
           m('p.control.has-icon.is-centered',
             [
-              m('input', {type: 'text', class: 'input is-small', placeholder: 'Search', oninput: m.withAttr('value', ctrl.search)}),
-              m('i', {class: 'fa fa-search'})
+              m('input.input.is-small[type=text][placeholder=Search]', {oninput: m.withAttr('value', ctrl.search)}),
+              m('i.fa.fa-search')
             ]
           )
         ),

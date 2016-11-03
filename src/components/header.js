@@ -26,7 +26,7 @@ module.exports = {
           )
         ),
         m('.nav-center',
-          m('a.nav-item', {href: "https://github.com/niikunihiro/codedesigner"},
+          m('a.nav-item[href=https://github.com/niikunihiro/codedesigner]',
             m('span.icon',
               m('i.fa.fa-github')
             )
