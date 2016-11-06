@@ -35,8 +35,17 @@ renderer.listitem = function(text) {
 
 renderer.code = function(code, lang, escaped) {
   if(/^sequenceDiagram/.test(code) || /^graph/.test(code)) {
-    // console.log(code);
-    return '<div class="mermaid">'+mermaidAPI.render(uuid.v1(), code)+'</div>';
+    var mermaidId = 'mermaidId' + uuid.v1().replace(/-/g, '').substr(0, 7);
+    var cb = function(svgCode, bindFunctions){
+      console.log(svgCode);
+    };
+    var element = document.getElementById('temp');
+    var graph = mermaidAPI.render(mermaidId, code, cb, element);
+    if (graph == null) {
+      element.textContent = null;
+      return '';
+    }
+    return '<div class="mermaid">'+graph+'</div>';
   }
 
   if (this.options.highlight) {

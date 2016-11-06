@@ -1,5 +1,5 @@
 
 var mermaidAPI = require('mermaid').mermaidAPI;
-mermaidAPI.initialize({startOnLoad: true, cloneCssStyles: false});
+mermaidAPI.initialize({startOnLoad: false, cloneCssStyles: false});
 
 module.exports = mermaidAPI;
