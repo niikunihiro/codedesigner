@@ -3,7 +3,10 @@ var mermaidAPI = require('./mermaid_api');
 var uuid = require('node-uuid');
 
 marked.setOptions({
-  sanitize: true
+  sanitize: true,
+  highlight: function (code) {
+    return require('highlight.js').highlightAuto(code).value;
+  }
 });
 
 var renderer = new marked.Renderer();
