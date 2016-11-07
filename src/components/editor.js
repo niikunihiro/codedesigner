@@ -18,12 +18,16 @@ module.exports = {
       } else {
         vm.update();
       }
-    }
+    };
 
     this.delete = function () {
       vm.delete();
       m.route('/');
-    }
+    };
+
+    this.download = function () {
+      vm.download();
+    };
 
     this.key_save = function (e) {
       if ((e.ctrlKey || e.metaKey) && e.keyCode === 83) {
@@ -76,8 +80,18 @@ module.exports = {
                   class: ctrl.is_new ? 'is-disabled' : ''
                   },
                   [
-                    m('span.icon', m('i.fa.fa-trash-o[area-hidden=true')),
+                    m('span.icon', m('i.fa.fa-trash-o[area-hidden=true]')),
                     m('span', 'Delete')
+                  ]
+                ),
+                m.trust('&nbsp;'),
+                m('a.button.is-info', {
+                  onclick: ctrl.download,
+                  class: ctrl.is_new ? 'is-disabled' : ''
+                },
+                  [
+                    m('span.icon', m('i.fa.fa-cloud-download[area-hidden=true]')),
+                    m('span', 'Download')
                   ]
                 )
               ]

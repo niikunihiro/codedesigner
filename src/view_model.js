@@ -38,6 +38,15 @@ var vm = {
   search: function (value) {
     vm.list = doc_model.search(value);
   },
+  download : function () {
+    var docs = vm.list().filter(function(doc){
+      return doc.id() === vm.id();
+    });
+    if (docs.length < 1) {
+      return false;
+    }
+    doc_model.download(docs[0]);
+  },
   marked: function () {
     var text = vm.edit();
     if (text === '') {

@@ -11,6 +11,7 @@
   "author": "niikunihiro",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "bulma": "^0.1.2",
     "express": "^4.14.0",
     "font-awesome": "^4.6.3",

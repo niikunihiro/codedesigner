@@ -116,4 +116,24 @@ Doc.delete = function (id) {
   localStorage.setItem('docs', json);
 };
 
+Doc.download = function (doc) {
+  var data = {
+    id: doc.id(),
+    title: doc.title(),
+    body: doc.body(),
+    link: doc.link(),
+    created: doc.created(),
+    updated: doc.updated()
+  }
+  var serialize = function(obj) {
+    var str = [];
+    for(var p in obj)
+      if (obj.hasOwnProperty(p)) {
+        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+      }
+    return str.join("&");
+  }
+  window.open('/download?' + serialize(data));
+}
+
 module.exports = Doc;
