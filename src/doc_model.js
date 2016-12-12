@@ -4,7 +4,8 @@ var
   m = require('mithril'),
   moment = require('moment'),
   taffyDB = require('./taffy_db'),
-  uuid = require('node-uuid')
+  uuid = require('node-uuid'),
+  file = require('./service/file')
 ;
 
 /*
@@ -119,21 +120,18 @@ Doc.delete = function (id) {
 Doc.download = function (doc) {
   var data = {
     id: doc.id(),
-    title: doc.title(),
+    title: encodeURIComponent(doc.title()),
     body: doc.body(),
     link: doc.link(),
     created: doc.created(),
     updated: doc.updated()
   }
-  var serialize = function(obj) {
-    var str = [];
-    for(var p in obj)
-      if (obj.hasOwnProperty(p)) {
-        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-      }
-    return str.join("&");
-  }
-  window.open('/download?' + serialize(data));
+  // ダウンロードする
+  file.download({
+    url: '/download',
+    data:  data,
+    method: 'GET'
+  });
 }
 
 module.exports = Doc;
