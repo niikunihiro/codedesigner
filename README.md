@@ -14,8 +14,8 @@ Code Designing Editor
 ## Install
 
 ```
-> git clone git@github.com:niikunihiro/codedesign.git
-> cd codedesign
+> git clone https://github.com/niikunihiro/codedesigner.git
+> cd codedesigner
 > npm install
 ```
 
