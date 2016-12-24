@@ -1,4 +1,4 @@
-var Doc = require('../src/doc_model');
+var Doc = require('../src/model/doc_model');
 var assert = require('power-assert');
 
 describe('myDoc', function () {

@@ -3,9 +3,9 @@
 var m = require("mithril");
 
 // コンポーネント
-var Header = require('./components/header');
-var SideMenu = require('./components/side_menu');
-var Editor = require('./components/editor');
+var Header = require('./component/header');
+var SideMenu = require('./component/side_menu');
+var Editor = require('./component/editor');
 
 // ヘッダー
 m.mount(document.getElementById('header'), m.component(Header));

@@ -3,9 +3,9 @@
 var
   m = require('mithril'),
   moment = require('moment'),
-  taffyDB = require('./taffy_db'),
+  taffyDB = require('./../adapter/taffy_db'),
   uuid = require('node-uuid'),
-  file = require('./service/file')
+  file = require('./../service/file')
 ;
 
 /*

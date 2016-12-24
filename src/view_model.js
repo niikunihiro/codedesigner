@@ -1,8 +1,8 @@
 'use strict';
 
 var m = require('mithril');
-var doc_model = require('./doc_model');
-var marked = require('./marked');
+var doc_model = require('./model/doc_model');
+var marked = require('./adapter/marked');
 
 // ビューモデル
 var vm = {
