@@ -5,7 +5,7 @@ var
   moment = require('moment'),
   taffyDB = require('./../adapter/taffy_db'),
   uuid = require('node-uuid'),
-  file = require('./../service/file')
+  FileSaver = require('file-saver')
 ;
 
 /*
@@ -120,18 +120,15 @@ Doc.delete = function (id) {
 Doc.download = function (doc) {
   var data = {
     id: doc.id(),
-    title: encodeURIComponent(doc.title()),
+    title: doc.title(),
     body: doc.body(),
     link: doc.link(),
     created: doc.created(),
     updated: doc.updated()
   }
-  // ダウンロードする
-  file.download({
-    url: '/download',
-    data:  data,
-    method: 'GET'
-  });
+  // ダウンロード
+  var file = new File([JSON.stringify(data)], doc.title() + ".json", {type: "application/json;charset=utf-8"});
+  FileSaver.saveAs(file);
 }
 
 module.exports = Doc;

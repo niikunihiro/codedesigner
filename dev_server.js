@@ -2,11 +2,9 @@
 
 var
   express = require('express'),
-  bodyparser = require('body-parser'),
   Webpack = require('webpack'),
   WebpackDevServer = require('webpack-dev-server'),
-  WebpackConfig = require('./webpack.config'),
-  fs = require('fs')
+  WebpackConfig = require('./webpack.config')
   ;
 
 var compiler = Webpack(WebpackConfig);
@@ -22,15 +20,6 @@ var server = new WebpackDevServer(compiler, {
     });
     app.use(/\/.+\/[\da-z]{8}_([\da-z]{4}_){3}[\da-z]{12}/, express.static("public/index.html"));
     app.use(express.static("public"));
-    app.use(bodyparser.json());
-    app.get('/download', function (req, res) {
-      var json = JSON.stringify(req.query);
-      var filename = req.query.title + '.json';
-      res.set('Content-disposition', 'attachment; filename=' + filename);
-      res.set('Content-Type', 'application/json');
-      res.send(json).end();
-    })
-
   },
   publicPath: '/assets/bundle/'
 });
