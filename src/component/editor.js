@@ -21,6 +21,9 @@ module.exports = {
     };
 
     this.delete = function () {
+      if (!confirm('Are you sure?')) {
+        return;
+      }
       vm.delete();
       m.route('/');
     };
@@ -51,7 +54,7 @@ module.exports = {
   view: function (ctrl) {
     return m('.columns',
       [
-        m('.column',
+        m('.column.is-5',
           [
             m('p.control',
               m(
@@ -98,7 +101,7 @@ module.exports = {
             )
           ]
         ),
-        m('.column',
+        m('.column.is-7',
           m('#viewer.content', [m.trust(vm.marked())])
         )
       ]
