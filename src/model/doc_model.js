@@ -117,18 +117,15 @@ Doc.delete = function (id) {
   localStorage.setItem('docs', json);
 };
 
+/**
+ * download item by markdown file.
+ * @param doc
+ */
 Doc.download = function (doc) {
-  var data = {
-    id: doc.id(),
-    title: doc.title(),
-    body: doc.body(),
-    link: doc.link(),
-    created: doc.created(),
-    updated: doc.updated()
-  }
-  // ダウンロード
-  var file = new File([JSON.stringify(data)], doc.title() + ".json", {type: "application/json;charset=utf-8"});
-  FileSaver.saveAs(file);
+  const body = doc.body();
+  const filename = doc.title() + ".md";
+  const blob = new Blob([body], {type : "text/markdown;charset=utf-8"});
+  FileSaver.saveAs(blob, filename);
 }
 
 module.exports = Doc;
