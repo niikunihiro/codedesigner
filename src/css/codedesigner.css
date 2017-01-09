@@ -12,3 +12,7 @@ section.main-contents {
     background-color: #fff;
     padding: 10px;
 }
+
+#notification {
+    opacity: 0;
+}

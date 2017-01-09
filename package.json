@@ -22,7 +22,8 @@
     "mithril": "^0.2.5",
     "moment": "^2.14.1",
     "node-taffydb": "^0.2.0",
-    "node-uuid": "^1.4.7"
+    "node-uuid": "^1.4.7",
+    "velocity-animate": "^1.4.0"
   },
   "devDependencies": {
     "css-loader": "^0.25.0",

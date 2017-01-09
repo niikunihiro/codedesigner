@@ -1,6 +1,7 @@
 'use strict';
 
 var m = require('mithril');
+var velocity = require('velocity-animate');
 var doc_model = require('./model/doc_model');
 var marked = require('./adapter/marked');
 
@@ -11,6 +12,7 @@ var vm = {
   error_msg : [],
   previous_edit: '',
   rendered: '',
+  notification: m.prop(''),
   init: function() {
     vm.list = doc_model.readStorage();
     // 編集中のデータを入れるプロパティ
@@ -133,6 +135,13 @@ var vm = {
     }
 
     return true;
+  },
+  notify : function (msg) {
+    vm.notification(msg);
+    var el = document.getElementById('notification');
+    velocity(el, {opacity: 0.7}, {duration: 2000, complete: function(){
+      velocity(el, {opacity: 0}, {duration: 2000});
+    }});
   }
 }
 

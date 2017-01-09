@@ -18,10 +18,11 @@ module.exports = {
       } else {
         vm.update();
       }
+      vm.notify("saved");
     };
 
     this.delete = function () {
-      if (!confirm('Are you sure?')) {
+      if (!confirm('Are you sure you want delete this?')) {
         return;
       }
       vm.delete();
@@ -102,7 +103,14 @@ module.exports = {
           ]
         ),
         m('.column.is-7',
-          m('#viewer.content', [m.trust(vm.marked())])
+          [
+            m('#viewer.content', [m.trust(vm.marked())]),
+            m('#notifier.is-pulled-right',[
+              m("span#notification.tag.is-success",
+                vm.notification()
+              )
+            ])
+          ]
         )
       ]
     );
