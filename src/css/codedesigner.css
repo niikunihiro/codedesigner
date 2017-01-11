@@ -1,6 +1,23 @@
+body {
+    font-family: "Avenir Next", "游ゴシック", "Yu Gothic", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", Meirio, Osaka, sans-serif;
+}
+
 textarea.textarea {
+    font-family: Myrica, "Source Han Code JP", ricty, monospace;
     height: 85vh;
     max-height: 100% !important;
+}
+
+code, pre {
+    font-family: "Source Code Pro", Menlo, Consolas, Monaco, Inconsolata, monospace;;
+}
+
+#header h1 {
+    font-family: Verdana;
+}
+
+.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+    font-weight: 400;
 }
 
 #links, #viewer {
