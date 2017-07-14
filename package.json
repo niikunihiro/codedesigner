@@ -46,7 +46,7 @@
     "test": "test"
   },
   "engines": {
-    "node": "v4.4.X",
+    "node": "v6.11.X",
     "npm": "3.10.X"
   }
 }
