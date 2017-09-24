@@ -1,5 +1,5 @@
 var marked = require('marked');
-var mermaidAPI = require('./mermaid_api');
+// var mermaidAPI = require('./mermaid_api');
 var uuid = require('node-uuid');
 
 marked.setOptions({
@@ -37,6 +37,7 @@ renderer.listitem = function(text) {
 };
 
 renderer.code = function(code, lang, escaped) {
+  /*
   if(/^sequenceDiagram/.test(code) || /^graph/.test(code)) {
     var mermaidId = 'mermaidId' + uuid.v1().replace(/-/g, '').substr(0, 7);
     var cb = function(svgCode, bindFunctions){
@@ -50,6 +51,7 @@ renderer.code = function(code, lang, escaped) {
     }
     return '<div class="mermaid">'+graph+'</div>';
   }
+  */
 
   if (this.options.highlight) {
     var out = this.options.highlight(code, lang);

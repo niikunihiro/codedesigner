@@ -1,19 +1,18 @@
 'use strict';
 
 var m = require('mithril');
-var vm = require('../view_model');
 
 module.exports = {
-  controller: function () {
-    this.new = function () {
-      vm.new();
-      return m.route('/');
+  oninit: function (vnode) {
+    vnode.state.new = function () {
+      console.log('click new');
+      return m.route.set('/');
     }
   },
-  view: function (ctrl) {
+  view: function (vnode) {
     return m('nav.nav', [
         m('.nav-left',
-          m('a.nav-item.is-5.title', {onclick: ctrl.new},
+          m('a.nav-item.is-5.title', {onclick: vnode.state.new},
             [
               m('span.fa-stack',
                 [
@@ -21,7 +20,7 @@ module.exports = {
                   m('i.fa.fa-book.fa-stack-1x.fa-inverse[aria-hidden="true"]')
                 ]
               ),
-              m('h1', 'CodeDesigner')
+              m('h1', 'CodeDesigner2')
             ]
           )
         ),
@@ -41,7 +40,7 @@ module.exports = {
         ),
         m('.nav-right.nav-menu[id="nav-menu"]',
           m('span.nav-item',
-            m('a.button.is-success', {onclick: ctrl.new},
+            m('a.button.is-success', {onclick: vnode.state.new},
               [
                 m('span.icon',
                   m('i.fa.fa-pencil-square-o')

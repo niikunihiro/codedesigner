@@ -1,29 +1,30 @@
 'use strict';
 
 var m = require('mithril');
+var prop = require('mithril/stream');
 var velocity = require('velocity-animate');
 var doc_model = require('./model/doc_model');
 var marked = require('./adapter/marked');
 
 // ビューモデル
 var vm = {
-  id: m.prop(''),
+  id: prop(''),
   edit: null,
   error_msg : [],
   previous_edit: '',
   rendered: '',
-  notification: m.prop(''),
+  notification: prop(''),
   init: function() {
     vm.list = doc_model.readStorage();
     // 編集中のデータを入れるプロパティ
-    vm.edit = m.prop('');
+    vm.edit = prop('');
   },
   initList: function () {
     vm.list = doc_model.read();
   },
   new: function () {
-    vm.id = m.prop('');
-    vm.edit = m.prop('');
+    vm.id = prop('');
+    vm.edit = prop('');
   },
   read: function (id) {
     var docs = vm.list().filter(function(doc){
@@ -33,8 +34,8 @@ var vm = {
       return false;
     }
     var doc = docs[0];
-    vm.id = m.prop(doc.id());
-    vm.edit = m.prop(doc.body());
+    vm.id = prop(doc.id());
+    vm.edit = prop(doc.body());
     return true;
   },
   search: function (value) {

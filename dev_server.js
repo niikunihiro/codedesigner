@@ -19,6 +19,7 @@ var server = new WebpackDevServer(compiler, {
       next();
     });
     app.use(/\/.+\/[\da-z]{8}_([\da-z]{4}_){3}[\da-z]{12}/, express.static("public/index.html"));
+    app.use(/\/edit\/.+/, express.static("public/index.html"));
     app.use(express.static("public"));
   },
   publicPath: '/assets/bundle/'

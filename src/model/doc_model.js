@@ -1,11 +1,12 @@
 "use strict";
 
 var
-  m = require('mithril'),
+  prop = require('mithril/stream'),
   moment = require('moment'),
   taffyDB = require('./../adapter/taffy_db'),
   uuid = require('node-uuid'),
-  FileSaver = require('file-saver')
+  FileSaver = require('file-saver'),
+  marked = require('./../adapter/marked')
 ;
 
 /*
@@ -18,15 +19,43 @@ var
 var Doc = function (data, isInitial) {
   // console.log('Doc constructor');
   // console.log(data);
-  this.link = m.prop("/" + encodeURIComponent(data.title) + '/' + encodeURIComponent(data.id.replace(/-/g, '_')))
-  this.id = m.prop(data.id);
-  this.title = m.prop(data.title);
-  this.body = m.prop(data.body);
-  this.created = m.prop(data.created);
-  this.updated = m.prop(data.updated);
-}
+  if (data && data.title && data.id) {
+    this.link = prop('/' + encodeURIComponent(data.title) + '/' + encodeURIComponent(data.id.replace(/-/g, '_')))
+    this.id = prop(data.id);
+    this.title = prop(data.title);
+    this.body = prop(data.body);
+    this.created = prop(data.created);
+    this.updated = prop(data.updated);
+  } else {
+    this.link = prop('/');
+    this.id = prop('');
+    this.title = prop('');
+    this.body = prop('');
+    this.created = prop('');
+    this.updated = prop('');
+  }
 
+  this.marked = function () {
+    var text = this.body();
+    if (text === '') {
+      return '';
+    }
+
+    // if (vm.previous_edit === text) {
+    //   return vm.rendered;
+    // }
+
+    this.rendered = marked.render(text);
+    // vm.previous_edit = text;
+    return this.rendered;
+  }
+}
+/**
+ * 画面初期化時に呼ぶ
+ * @returns {Array}
+ */
 Doc.readStorage = function () {
+  console.log('doc readStorage() ================');
   var
     list = [],
     src = localStorage.getItem('docs'),
@@ -36,10 +65,11 @@ Doc.readStorage = function () {
     json = JSON.parse(src);
     taffyDB.insert(json);
     taffyDB().each(function (record) {
+      // Docモデルのコレクションにする
       list.push(new Doc(record));
     });
   }
-  return m.prop(list);
+  return list;
 }
 
 Doc.read = function () {
@@ -47,7 +77,7 @@ Doc.read = function () {
   taffyDB().each(function (record) {
     list.push(new Doc(record));
   });
-  return m.prop(list);
+  return list;
 }
 
 Doc.search = function (keyword) {
@@ -55,7 +85,7 @@ Doc.search = function (keyword) {
   taffyDB({body: {likenocase: keyword}}).each(function (record) {
     list.push(new Doc(record));
   });
-  return m.prop(list);
+  return list;
 }
 
 Doc.find = function (id) {
@@ -63,13 +93,13 @@ Doc.find = function (id) {
   return data;
 }
 
-Doc.save = function (text) {
+Doc.save = function (doc) {
   var
     now = moment().format('YYYY-MM-DD HH:mm:ss'),
     data = {
       id : uuid.v1(),
-      title : text.split(/\r\n|\r|\n/)[0].replace('# ', ''),
-      body : text,
+      title : doc.body().split(/\r\n|\r|\n/)[0].replace('# ', ''),
+      body : doc.body(),
       created : now,
       updated : now
     },
@@ -84,10 +114,9 @@ Doc.save = function (text) {
 
 /**
  * update item
- * @param text
  * @param doc
  */
-Doc.update = function (text, doc) {
+Doc.update = function (doc) {
   var
     now = moment().format('YYYY-MM-DD HH:mm:ss'),
     data,
@@ -95,8 +124,8 @@ Doc.update = function (text, doc) {
   ;
   data = {
     id : doc.id(),
-    title : doc.title(text.split(/\r\n|\r|\n/)[0].replace('# ', '')),
-    body :   doc.body(text),
+    title : doc.body().split(/\r\n|\r|\n/)[0].replace('# ', ''),
+    body :   doc.body(),
     created : doc.created(),
     updated : now
   };
@@ -104,6 +133,7 @@ Doc.update = function (text, doc) {
   taffyDB({id: doc.id()}).update(data);
   json = taffyDB().stringify();
   localStorage.setItem('docs', json);
+  return new Doc(data);
 };
 
 /**
